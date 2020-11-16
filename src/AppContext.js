@@ -12,9 +12,20 @@ const AppContextProvider = ({children}) => {
             .then(res => res.json())
             .then(data => setAllPhotos(data))
     }, [])
-    console.log('AppContext: ' + allPhotos)
+    
+    const toggleFavorite = (id) => {
+        const updatedPhotos = allPhotos.map(photo => {
+            if(photo.id === id){
+                return {...photo, isFavorite: !photo.isFavorite}
+            } else {
+                return photo
+            }
+        })
+        setAllPhotos(updatedPhotos)
+    }
+
     return(
-        <AppContext.Provider value={{allPhotos}}>
+        <AppContext.Provider value={{allPhotos, toggleFavorite}}>
             {children}
         </AppContext.Provider>
     )
