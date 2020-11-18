@@ -1,10 +1,13 @@
 import {useState} from 'react'
 import { useContext } from 'react'
 import {AppContext} from '../AppContext'
+import PropTypes from 'prop-types'
 
 const Image = ({className, img}) => {
     const [isHovered, setIsHovered] = useState(false)
     const {toggleFavorite} = useContext(AppContext)
+    const {addToCart} = useContext(AppContext)
+
     const favIcon = () => {
         if(img.isFavorite){
             return <i className="ri-heart-fill favorite" onClick={()=> toggleFavorite(img.id)}></i>
@@ -13,6 +16,12 @@ const Image = ({className, img}) => {
         }
     }
     
+    const cartIcon = isHovered && 
+        <i className="ri-add-circle-line cart" 
+            onClick={() => addToCart(img)}>
+        </i>
+    
+    
     return(
         <div 
             className={`${className} image-container`}
@@ -20,8 +29,7 @@ const Image = ({className, img}) => {
             onMouseLeave ={()=> setIsHovered(false)}
         >
             {favIcon()}
-            {isHovered && <i className="ri-add-circle-line cart"></i>}
-            
+            {cartIcon}
             
             <img 
                 src={img.url}
@@ -30,6 +38,15 @@ const Image = ({className, img}) => {
             />
         </div>
     )
+}
+
+Image.propTypes = {
+    className: PropTypes.string,
+    img: PropTypes.shape({
+        id: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired,
+        isFavorite: PropTypes.bool
+    })
 }
 
 export default Image
