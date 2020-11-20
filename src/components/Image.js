@@ -6,7 +6,7 @@ import PropTypes from 'prop-types'
 const Image = ({className, img}) => {
     const [isHovered, setIsHovered] = useState(false)
     const {toggleFavorite} = useContext(AppContext)
-    const {addToCart} = useContext(AppContext)
+    const {cartItems, addToCart, removeFromCart } = useContext(AppContext)
 
     const favIcon = () => {
         if(img.isFavorite){
@@ -16,11 +16,16 @@ const Image = ({className, img}) => {
         }
     }
     
-    const cartIcon = isHovered && 
-        <i className="ri-add-circle-line cart" 
-            onClick={() => addToCart(img)}>
-        </i>
+    const cartIcon2 = isHovered && <i className="ri-add-circle-line cart" onClick={() => addToCart(img)}></i>
     
+    const cartIcon= () => {
+        const isInCart = cartItems.some(item => item.id === img.id)
+        if(isInCart) {
+            return <i className="ri-shopping-cart-fill cart" onClick={() => removeFromCart(img.id)}></i>
+        } else if(isHovered) {
+            return <i className="ri-add-circle-line cart" onClick={() => addToCart(img)}></i>
+        }
+    }
     
     return(
         <div 
@@ -29,7 +34,7 @@ const Image = ({className, img}) => {
             onMouseLeave ={()=> setIsHovered(false)}
         >
             {favIcon()}
-            {cartIcon}
+            {cartIcon()}
             
             <img 
                 src={img.url}
