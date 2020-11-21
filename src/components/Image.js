@@ -16,8 +16,6 @@ const Image = ({className, img}) => {
         }
     }
     
-    const cartIcon2 = isHovered && <i className="ri-add-circle-line cart" onClick={() => addToCart(img)}></i>
-    
     const cartIcon= () => {
         const isInCart = cartItems.some(item => item.id === img.id)
         if(isInCart) {

@@ -32,11 +32,22 @@ const AppContextProvider = ({children}) => {
     }
 
     const removeFromCart = (id) => {
-        setCartItems(cartItems.filter(item => item.id != id))
+        setCartItems(cartItems.filter(item => item.id !== id))
+    }
+
+    const emptyCart = () => {
+        setCartItems([])
     }
 
     return(
-        <AppContext.Provider value={{allPhotos, cartItems,toggleFavorite, addToCart, removeFromCart}}>
+        <AppContext.Provider value={{
+            allPhotos, 
+            cartItems,
+            toggleFavorite, 
+            addToCart, 
+            removeFromCart, 
+            emptyCart
+        }}>
             {children}
         </AppContext.Provider>
     )
